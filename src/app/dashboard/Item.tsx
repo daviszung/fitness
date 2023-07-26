@@ -85,7 +85,8 @@ export function Item({
 					<input
 						id="textUpdate"
 						type="text"
-						className="p-2 w-9/12 bg-transparent outline-none"
+						className="p-1 w-9/12 bg-transparent outline-none"
+                        placeholder={text}
 					></input>
 					<button
 						onClick={() => {
