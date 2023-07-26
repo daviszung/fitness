@@ -1,0 +1,8 @@
+challenges:
+-Learning the App router and more about server components
+-Ensuring that the database connection was available 
+before the route logic occurred
+
+interesting things:
+-I'm trying out gray-first-design, in which I don't use any colors other
+than gray for the initial design and layout

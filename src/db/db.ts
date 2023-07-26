@@ -1,29 +1,49 @@
+import { MongoClient, ServerApiVersion, Db, Collection } from "mongodb";
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-require('dotenv').config();
+require("dotenv").config();
 
 const userPassword = process.env.DB_USER_PASSWORD;
 const uri = `mongodb+srv://daviszung:${userPassword}@cluster0.olgvew1.mongodb.net/?retryWrites=true&w=majority`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-export const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+let cachedClient: null | MongoClient = null;
+let cachedDB: null | Db = null;
+let cachedCollection: null | Collection = null;
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
+export async function connectDB() {
+
+	if (cachedClient && cachedDB && cachedCollection) {
+		return {
+			client: cachedClient,
+			db: cachedDB,
+			collection: cachedCollection
+		}
+	};
+
+	let client = new MongoClient(uri, {
+		serverApi: {
+			version: ServerApiVersion.v1,
+			strict: true,
+			deprecationErrors: true,
+		},
+	})
+	try {
+		await client.connect();
+		console.log("Connected to DB");
+	} catch (err) {
+		console.log(err);
+	}
+
+	let db = client.db('fitness');
+	let collection = db.collection("Cluster0")
+
+	cachedClient = client;
+	cachedDB = db;
+	cachedCollection = collection;
+	
+
+	return {
+		client: client,
+		db: db,
+		collection: collection
+	}
 }
-run().catch(console.dir);
