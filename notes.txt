@@ -2,6 +2,9 @@ challenges:
 -Learning the App router and more about server components
 -Ensuring that the database connection was available 
 before the route logic occurred
+-Typically when I'm using react I could just store state in a useState,
+but since we're working with multiple pages, and I want to take advantage
+of the App router, I moved some state into session storage instead.
 
 interesting things:
 -I'm trying out gray-first-design, in which I don't use any colors other

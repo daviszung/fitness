@@ -27,6 +27,7 @@ export function Login() {
 			const body = await data.json();
 			console.log(body);
 			if (body.outcome === "Login Success") {
+				sessionStorage.setItem("username", username.value);
 				router.push("/dashboard");
 			} else {
 				alert("Login Attempt Failed");
@@ -42,17 +43,24 @@ export function Login() {
 					password: password.value,
 				}),
 			});
-			const body = await data.json();
-			console.log(body);
 		}
 	}
 
 	return (
-		<div className="flex flex-col gap-3">
-			<input id="username" type="text" />
-			<input id="password" type="password" />
+		<div className="flex flex-col gap-3 w-full justify-center items-center">
+			<input
+				id="username"
+				className="bg-gray-800 px-4 py-2 text-gray-50 outline-none rounded-sm"
+				type="text"
+				autoComplete="off"
+			/>
+			<input
+				id="password"
+				className="bg-gray-800 px-4 py-2 text-gray-50 outline-none rounded-sm"
+				type="password"
+			/>
 			<button
-				className="bg-gray-400 rounded-sm text-gray-50 font-semibold"
+				className="bg-gray-800 px-6 py-2 rounded-md text-gray-50 font-semibold"
 				onClick={() => {
 					sendUserInfo("Login");
 				}}
@@ -60,7 +68,7 @@ export function Login() {
 				Login
 			</button>
 			<button
-				className="bg-gray-400 rounded-sm text-gray-50 font-semibold"
+				className="bg-gray-800 px-6 py-2 rounded-md text-gray-50 font-semibold"
 				onClick={() => {
 					sendUserInfo("Signup");
 				}}
