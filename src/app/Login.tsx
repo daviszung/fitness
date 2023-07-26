@@ -25,7 +25,7 @@ export function Login() {
 				}),
 			});
 			const body = await data.json();
-			console.log(body);
+			
 			if (body.outcome === "Login Success") {
 				sessionStorage.setItem("username", username.value);
 				router.push("/dashboard");

@@ -26,7 +26,6 @@ export function Add({ username, setRefresh, refresh, logout }: AddProps) {
 		});
 
 		res = await res.json();
-		console.log(res);
 
 		if (refresh) {
 			setRefresh(false);

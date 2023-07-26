@@ -9,3 +9,38 @@ of the App router, I moved some state into session storage instead.
 interesting things:
 -I'm trying out gray-first-design, in which I don't use any colors other
 than gray for the initial design and layout
+
+
+On the app router:
+
+Server components use cases:
+Great for when you would want to make a fetch to an API to get data and then
+render it on a page where the data would not change. Also great with a database
+instead of an API in the same use case.
+
+Good for when you just want to render a plain static html page.
+
+Anything with state or interactivity does not seem possible with server components.
+When you want interactivity, you can put a client component inside a server component.
+
+I've only been working on this for a day, so of course I might be wrong about this, but
+it seems like a big problem is when you have two components that rely on one another,
+and they are in the same parent server component. 
+If you press a button which should change a view in a sibling component, the parent
+component can't be a server component (since you would want to pass the state up
+to the parent, and then pass the state down to the other child component as props).
+This seems to lead me to make container components with "use client" more often than I
+might want to, and it creates some new architectural questions to be answered when
+designing a page.
+
+Another problem I encountered was dealing with checking if a user was logged in or not.
+I was using session storage in order to hold some state outside of my view, but still
+easily accessible. In order to check if a user is logged in, I'd check the session
+storage for their username, but doing this is only possible in a client component. 
+This made me think about which components needed to know the username, but raises the
+question: "Should I store the user's login status in the page component (forcing the
+page to be a client component), or should I query the session storage in every single
+client component that depends on login status on the page?
+I'll have to think of alternative methods and how they would interact with this problem.
+For example, could this be avoided by storing the username into the page url, instead
+of into session storage

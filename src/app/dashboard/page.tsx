@@ -17,9 +17,9 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		const data = sessionStorage.getItem("username");
-		if (!data && !username) {
-			logout();
-		}
+		// if (!data && !username) {
+		// 	logout();
+		// }
 		setUsername(data);
 	}, []);
 
@@ -32,7 +32,7 @@ export default function Dashboard() {
 					setRefresh={setRefresh}
 					refresh={refresh}
 				></Add>
-				<Goals username={username} refresh={refresh}></Goals>
+				<Goals username={username} refresh={refresh} setRefresh={setRefresh}></Goals>
 			</div>
 		</main>
 	);

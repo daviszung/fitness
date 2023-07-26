@@ -1,13 +1,15 @@
 "use client";
 
+import { Item } from "./Item";
 import { useEffect, useState } from "react";
 
 type GoalsProps = {
 	username: string | null;
 	refresh: boolean;
+    setRefresh: Function
 };
 
-export function Goals({ username, refresh }: GoalsProps) {
+export function Goals({ username, refresh, setRefresh }: GoalsProps) {
 	const [list, setList] = useState([]);
 
 	async function getList(username: string | null) {
@@ -23,7 +25,6 @@ export function Goals({ username, refresh }: GoalsProps) {
 			body: JSON.stringify({ username: username }),
 		});
 		res = await res.json();
-		console.log({ res });
 		if (res.outcome === "Success") {
 			setList((prev) => res.data);
 		} else {
@@ -43,9 +44,7 @@ export function Goals({ username, refresh }: GoalsProps) {
 			</div>
 			<ul className="flex-1 px-6 py-6">
 				{list.map((el, index) => (
-					<li key={index} className="font-semibold text-gray-900">
-						{el}
-					</li>
+                    <Item text={el} index={index} username={username} refresh={refresh} setRefresh={setRefresh}></Item>
 				))}
 			</ul>
 		</div>

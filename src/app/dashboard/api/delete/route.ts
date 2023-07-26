@@ -6,9 +6,12 @@ export async function POST(req: Request) {
 	const body = await req.json();
 	let resBody: { [index: string]: string } = {};
 	try {
-		const dbRes = await db.collection.findOne({ username: body.username });
+		const dbRes = await db.collection.findOneAndUpdate(
+			{ username: body.username },
+			{ $pull: { goals: body.data } }
+             
+		);
 		resBody.outcome = "Success";
-		resBody.data = dbRes!.goals;
 	} catch (err) {
 		console.log(err);
 		resBody.outcome = "Failure";
