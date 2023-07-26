@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 type ItemProps = {
 	text: string;
 	index: number;
@@ -15,6 +17,12 @@ export function Item({
 	refresh,
 	setRefresh,
 }: ItemProps) {
+	const [isEditing, setIsEditing] = useState(false);
+
+	function handleEditClick() {
+		setIsEditing(true);
+	}
+
 	async function deleteItem(input: string) {
 		let res: any = await fetch("/dashboard/api/delete", {
 			method: "POST",
@@ -26,15 +34,45 @@ export function Item({
 		res = await res.json();
 
 		if (res.outcome === "Success") {
-            if (refresh) {
-                setRefresh(false)
-            }
-            else {
-                setRefresh(true)
-            }
+			if (refresh) {
+				setRefresh(false);
+			} else {
+				setRefresh(true);
+			}
+		} else {
+			console.log("update text failure", res);
+		}
+	}
+
+	async function updateItem() {
+		const newValue = document.getElementById(
+			"textUpdate"
+		) as HTMLInputElement;
+
+		let res: any = await fetch("/dashboard/api/update", {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify({
+				username: username,
+				newText: newValue.value,
+				oldText: text,
+			}),
+		});
+		res = await res.json();
+
+		if (res.outcome === "Success") {
+			if (refresh) {
+				setRefresh(false);
+			} else {
+				setRefresh(true);
+			}
 		} else {
 			console.log("delete item failure", res);
 		}
+
+		setIsEditing(false);
 	}
 
 	return (
@@ -42,20 +80,44 @@ export function Item({
 			key={index}
 			className="font-semibold text-gray-900 flex justify-between items-center p-4 border-gray-300 border-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)] mb-4"
 		>
-			<p>{text}</p>
-			<div>
-				<button className="bg-gray-800 text-gray-50 rounded-lg px-4 py-1 mr-3">
-					Edit
-				</button>
-				<button
-					onClick={() => {
-						deleteItem(text);
-					}}
-					className="bg-gray-800 text-gray-50 rounded-lg px-3 py-1"
-				>
-					X
-				</button>
-			</div>
+			{isEditing ? (
+				<>
+					<input
+						id="textUpdate"
+						type="text"
+						className="p-2 w-9/12 bg-transparent outline-none"
+					></input>
+					<button
+						onClick={() => {
+							updateItem();
+						}}
+					>
+						Save
+					</button>
+				</>
+			) : (
+				<>
+					<p>{text}</p>
+					<div>
+						<button
+							onClick={() => {
+								handleEditClick();
+							}}
+							className="rounded-lg px-3 py-1 mr-1"
+						>
+							Edit
+						</button>
+						<button
+							onClick={() => {
+								deleteItem(text);
+							}}
+							className="rounded-lg px-3 py-1"
+						>
+							X
+						</button>
+					</div>
+				</>
+			)}
 		</li>
 	);
 }
