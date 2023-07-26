@@ -6,12 +6,16 @@ export async function POST(req: Request) {
     const db = await connectDB();
     const body = await req.json();
     const { username, password } = body;
-    const searchForAccount = await db.collection.findOne({username: username, password: password});
     let resBody: {[index: string]: string} = {};
-    if (searchForAccount) {
-        resBody.outcome = "Login Success"
-    } else {
-        resBody.outcome = "Login Failure"
+    try {
+        const searchForAccount = await db.collection.findOne({username: username, password: password});
+        if (searchForAccount) {
+            resBody.outcome = "Login Success"
+        } else {
+            resBody.outcome = "Login Failure"
+        }
+    } catch(err) {
+        console.log(err);
     }
     return NextResponse.json(resBody)
 }
