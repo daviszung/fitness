@@ -19,14 +19,16 @@ export async function connectDB() {
 			collection: cachedCollection
 		}
 	};
-
-	let client = new MongoClient(uri, {
-		serverApi: {
-			version: ServerApiVersion.v1,
-			strict: true,
-			deprecationErrors: true,
-		},
-	})
+	console.log("these days");
+	let client = new MongoClient(uri)
+	console.log("some things");
+	// let client = new MongoClient(uri, {
+	// 	serverApi: {
+	// 		version: ServerApiVersion.v1,
+	// 		strict: true,
+	// 		deprecationErrors: true,
+	// 	},
+	// })
 	try {
 		await client.connect();
 		console.log("Connected to DB");
