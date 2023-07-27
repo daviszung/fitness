@@ -17,9 +17,9 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		const data = sessionStorage.getItem("username");
-		// if (!data && !username) {
-		// 	logout();
-		// }
+		if (!data && !username) {
+			logout();
+		}
 		setUsername(data);
 	}, []);
 
