@@ -5,6 +5,8 @@ before the route logic occurred
 -Typically when I'm using react I could just store state in a useState,
 but since we're working with multiple pages, and I want to take advantage
 of the App router, I moved some state into session storage instead.
+-I forgot to make my database accessible from the ip that my deployment would be which caused
+me some hassle.
 
 interesting things:
 -I'm trying out gray-first-design, in which I don't use any colors other
