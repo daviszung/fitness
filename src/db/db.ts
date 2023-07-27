@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const userPassword = process.env.DB_USER_PASSWORD;
 const uri = `mongodb+srv://daviszung:${userPassword}@cluster0.olgvew1.mongodb.net/?retryWrites=true&w=majority`;
+console.log("uri", uri);
 
 let cachedClient: null | MongoClient = null;
 let cachedDB: null | Db = null;
@@ -30,7 +31,7 @@ export async function connectDB() {
 		await client.connect();
 		console.log("Connected to DB");
 	} catch (err) {
-		console.log(err);
+		console.log("ERROR CONNECTING TO SERVER: ", err);
 	}
 
 	let db = client.db('fitness');
