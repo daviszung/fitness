@@ -2,6 +2,13 @@ import { connectDB } from '@/db/db';
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
+    try {
+
+        const db = await connectDB();
+
+    } catch (err) {
+        console.log(err);
+    }
     return NextResponse.json({outcome: "Login Failure"});
 
     let resBody: {[index: string]: string} = {};
