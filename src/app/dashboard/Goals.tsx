@@ -10,23 +10,23 @@ type GoalsProps = {
 };
 
 export function Goals({ username, refresh, setRefresh }: GoalsProps) {
-	const [list, setList] = useState([]);
+	const [list, setList] = useState<any[]>([]);
 
 	async function getList(username: string | null) {
 		if (!username) {
 			console.log("Tried to get list without username");
 			return;
 		}
-		let res: any = await fetch("/dashboard/api/goals", {
+		const res: Response = await fetch("/dashboard/api/goals", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({ username: username }),
 		});
-		res = await res.json();
-		if (res.outcome === "Success") {
-			setList((prev) => res.data);
+		const data: {outcome: string, data: any[]} = await res.json();
+		if (data.outcome === "Success") {
+			setList((prev) => data.data);
 		} else {
 			console.log("Error getting goals list");
 		}

@@ -24,16 +24,17 @@ export function Item({
 	}
 
 	async function deleteItem(input: string) {
-		let res: any = await fetch("/dashboard/api/delete", {
+		const res: Response = await fetch("/dashboard/api/delete", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({ username: username, data: input }),
 		});
-		res = await res.json();
 
-		if (res.outcome === "Success") {
+		const data: {outcome: string} = await res.json();
+
+		if (data.outcome === "Success") {
 			if (refresh) {
 				setRefresh(false);
 			} else {
@@ -49,7 +50,7 @@ export function Item({
 			"textUpdate"
 		) as HTMLInputElement;
 
-		let res: any = await fetch("/dashboard/api/update", {
+		const res: Response = await fetch("/dashboard/api/update", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json",
@@ -60,9 +61,9 @@ export function Item({
 				oldText: text,
 			}),
 		});
-		res = await res.json();
+		const data: {outcome: string} = await res.json();
 
-		if (res.outcome === "Success") {
+		if (data.outcome === "Success") {
 			if (refresh) {
 				setRefresh(false);
 			} else {
