@@ -1,10 +1,8 @@
 import { MongoClient, ServerApiVersion, Db, Collection } from "mongodb";
 
-console.log('config');
 require("dotenv").config();
 
 const userPassword = process.env.DB_USER_PASSWORD;
-console.log('env', userPassword);
 const uri = `mongodb+srv://daviszung:${userPassword}@cluster0.olgvew1.mongodb.net/?retryWrites=true&w=majority`;
 
 let cachedClient: null | MongoClient = null;
