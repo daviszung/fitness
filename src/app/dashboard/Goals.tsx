@@ -10,7 +10,7 @@ type GoalsProps = {
 };
 
 export function Goals({ username, refresh, setRefresh }: GoalsProps) {
-	const [list, setList] = useState<any[]>([]);
+	const [list, setList] = useState<string[]>([]);
 
 	async function getList(username: string | null) {
 		if (!username) {
@@ -24,7 +24,7 @@ export function Goals({ username, refresh, setRefresh }: GoalsProps) {
 			},
 			body: JSON.stringify({ username: username }),
 		});
-		const data: {outcome: string, data: any[]} = await res.json();
+		const data: {outcome: string, data: string[]} = await res.json();
 		if (data.outcome === "Success") {
 			setList((prev) => data.data);
 		} else {

@@ -13,6 +13,15 @@ export function Login() {
 			"password"
 		) as HTMLInputElement;
 
+		if (username.value.length < 3) {
+			alert("Please enter a username value longer than two characters");
+			return;
+		}
+		if (password.value.length < 3) {
+			alert("Please enter a password value longer than two characters");
+			return;
+		}
+
 		if (mode === "Login") {
 			const data = await fetch("/api/login", {
 				method: "POST",
@@ -25,7 +34,7 @@ export function Login() {
 				}),
 			});
 			const body = await data.json();
-			
+
 			if (body.outcome === "Login Success") {
 				sessionStorage.setItem("username", username.value);
 				router.push("/dashboard");

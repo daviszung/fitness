@@ -14,6 +14,10 @@ export function Add({ username, setRefresh, refresh, logout }: AddProps) {
 			return;
 		}
 		const data = document.getElementById("addData") as HTMLInputElement;
+		if (data.value.length < 1) {
+			alert("Blank value not accepted");
+			return;
+		}
 		let res = await fetch("/dashboard/api/add", {
 			method: "POST",
 			headers: {
